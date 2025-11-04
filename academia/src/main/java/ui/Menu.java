@@ -7,10 +7,14 @@ package ui;
 import javax.swing.*;
 import java.awt.GridLayout;
 import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import model.Aluno;
 import model.Professor;
+import model.Treino;
 import dao.AlunoDAO;
 import dao.ProfessorDAO;
+import dao.TreinoDAO;
 /**
  *
  * @author Roberto Augusto
@@ -39,6 +43,7 @@ public class Menu extends javax.swing.JFrame {
         cadastroMenu = new javax.swing.JMenu();
         alunoMenuItem = new javax.swing.JMenuItem();
         professorMenuItem = new javax.swing.JMenuItem();
+        treinoMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -60,6 +65,14 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         cadastroMenu.add(professorMenuItem);
+
+        treinoMenuItem.setText("Treino");
+        treinoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                treinoMenuItemActionPerformed(evt);
+            }
+        });
+        cadastroMenu.add(treinoMenuItem);
 
         jMenuBar1.add(cadastroMenu);
 
@@ -164,6 +177,45 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_professorMenuItemActionPerformed
 
+    private void treinoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treinoMenuItemActionPerformed
+        // TODO add your handling code here:
+        JTextField nomeTextField = new JTextField(15);
+        JTextField musculoTextField = new JTextField(15);
+        JTextField horarioTextField = new JTextField(15);
+        
+        JPanel panel = new JPanel(new java.awt.GridLayout(0, 2, 5, 5));
+        panel.add(new JLabel("Nome:"));
+        panel.add(nomeTextField);
+        panel.add(new JLabel("Músculo:"));
+        panel.add(musculoTextField);
+        panel.add(new JLabel("Horário (HH:mm):"));
+        panel.add(horarioTextField);
+        
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            panel,
+            "Inserir Treino",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+        );
+        
+        if(result == JOptionPane.OK_OPTION) {
+            
+            String nome = nomeTextField.getText();
+            String musculo = musculoTextField.getText();
+            LocalTime horario = LocalTime.parse(horarioTextField.getText(), DateTimeFormatter.ofPattern("HH:mm"));
+            
+            TreinoDAO treinoDAO = new TreinoDAO();
+            Treino treino = new Treino(nome, musculo, horario);
+
+            if(treinoDAO.inserir(treino)) {
+                JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao cadastrar o treino.");
+            }
+        }
+    }//GEN-LAST:event_treinoMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -195,5 +247,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem professorMenuItem;
+    private javax.swing.JMenuItem treinoMenuItem;
     // End of variables declaration//GEN-END:variables
 }
