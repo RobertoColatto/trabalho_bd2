@@ -18,6 +18,7 @@ public class Aluno {
     private double peso;
     private double altura;
     private char sexo;
+    private Timestamp create_time;
     
     public Aluno() {};
     
@@ -53,6 +54,10 @@ public class Aluno {
         return sexo;
     }
 
+    public Timestamp getCreate_time() {
+        return create_time;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -76,4 +81,8 @@ public class Aluno {
     public void setSexo(char sexo) {
         this.sexo = sexo;
     }  
+
+    public void setCreate_time(Timestamp create_time) {
+        this.create_time = create_time;
+    }
 }
