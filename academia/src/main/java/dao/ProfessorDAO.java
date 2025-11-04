@@ -2,15 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dao; //Data Access Object
+package dao;
 
-import java.sql.*;
-import model.Aluno;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import model.Professor;
+
 /**
  *
  * @author Roberto Augusto
  */
-public class AlunoDAO {
+public class ProfessorDAO {
     
     private final String URL = "jdbc:mysql://localhost:3306/academia";
     private final String USER = "root";
@@ -20,27 +25,24 @@ public class AlunoDAO {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
     
-    public boolean inserir(Aluno aluno) {
-        String sql = "{CALL inserir_aluno(?, ?, ?, ?, ?)}";
+    public boolean inserir(Professor professor) {
+        String sql = "{CALL inserir_professor(?, ?)}";
         try(Connection conn = conectar();
             CallableStatement stmt = conn.prepareCall(sql)) {
-            stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getEmail());
-            stmt.setDouble(3, aluno.getPeso());
-            stmt.setDouble(4, aluno.getAltura());
-            stmt.setString(5, String.valueOf(aluno.getSexo()));
+            stmt.setString(1, professor.getNome());
+            stmt.setString(2, String.valueOf(professor.getSexo()));
             stmt.execute();
-            System.out.println("Aluno cadastrado com sucesso.");
+            System.out.println("Professor cadastrado com sucesso.");
             try(ResultSet rs = stmt.getGeneratedKeys()) {
                 if(rs.next()) {
                     int idGerado = rs.getInt(1);
-                    aluno.setAlunoid(idGerado);
+                    professor.setIdprofessor(idGerado);
                     System.out.println("ID gerado: " + idGerado);
                 }
             }
             return true;
         } catch(SQLException e) {
-            System.out.println("Erro ao cadastrar o aluno: " + e.getMessage());
+            System.out.println("Erro ao cadastrar o professor: " + e.getMessage());
         }
         return false;
     }

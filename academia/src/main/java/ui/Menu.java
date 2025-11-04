@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.GridLayout;
 import java.sql.Timestamp;
 import model.Aluno;
+import model.Professor;
 import dao.AlunoDAO;
+import dao.ProfessorDAO;
 /**
  *
  * @author Roberto Augusto
@@ -36,6 +38,7 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         cadastroMenu = new javax.swing.JMenu();
         alunoMenuItem = new javax.swing.JMenuItem();
+        professorMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -49,6 +52,14 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         cadastroMenu.add(alunoMenuItem);
+
+        professorMenuItem.setText("Professor");
+        professorMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                professorMenuItemActionPerformed(evt);
+            }
+        });
+        cadastroMenu.add(professorMenuItem);
 
         jMenuBar1.add(cadastroMenu);
 
@@ -118,6 +129,41 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_alunoMenuItemActionPerformed
 
+    private void professorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_professorMenuItemActionPerformed
+        // TODO add your handling code here:
+        JTextField nomeTextField = new JTextField(15);
+        JTextField sexoTextField = new JTextField(15);
+        
+        JPanel panel = new JPanel(new java.awt.GridLayout(0, 2, 5, 5));
+        panel.add(new JLabel("Nome:"));
+        panel.add(nomeTextField);
+        panel.add(new JLabel("Sexo:"));
+        panel.add(sexoTextField);
+        
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            panel,
+            "Inserir Professor",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+        );
+        
+        if(result == JOptionPane.OK_OPTION) {
+            
+            String nome = nomeTextField.getText();
+            char sexo = sexoTextField.getText().charAt(0);
+            
+            ProfessorDAO professorDAO = new ProfessorDAO();
+            Professor professor = new Professor(nome, sexo);
+
+            if(professorDAO.inserir(professor)) {
+                JOptionPane.showMessageDialog(this, "Professor cadastrado com sucesso.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao cadastrar o professor.");
+            }
+        }
+    }//GEN-LAST:event_professorMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -148,5 +194,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu cadastroMenu;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem professorMenuItem;
     // End of variables declaration//GEN-END:variables
 }
