@@ -289,7 +289,7 @@ public class Menu extends javax.swing.JFrame {
         int result = JOptionPane.showConfirmDialog(
             this,
             panel,
-            "Inserir Treino",
+            "Inserir Equipamento",
             JOptionPane.OK_CANCEL_OPTION,
             JOptionPane.PLAIN_MESSAGE
         );
