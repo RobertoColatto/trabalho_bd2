@@ -20,28 +20,28 @@ public class AlunoDAO {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
     
-    public void inserir(Aluno aluno) {
-        String sql = "INSERT INTO user (email, name, peso, tamanho, sexo) VALUES (?, ?, ?, ?, ?)";
+    public boolean inserir(Aluno aluno) {
+        String sql = "{CALL inserir_aluno(?, ?, ?, ?, ?)}";
         try(Connection conn = conectar();
-            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(1, aluno.getEmail());
-            //stmt.setTimestamp(2, aluno.getCreate_time());
-            stmt.setString(2, aluno.getNome());
-            //stmt.setInt(4, aluno.getAluno_id());
+            CallableStatement stmt = conn.prepareCall(sql)) {
+            stmt.setString(1, aluno.getNome());
+            stmt.setString(2, aluno.getEmail());
             stmt.setDouble(3, aluno.getPeso());
             stmt.setDouble(4, aluno.getAltura());
             stmt.setString(5, String.valueOf(aluno.getSexo()));
-            stmt.executeUpdate();
+            stmt.execute();
             System.out.println("Aluno cadastrado com sucesso.");
             try(ResultSet rs = stmt.getGeneratedKeys()) {
                 if(rs.next()) {
                     int idGerado = rs.getInt(1);
-                    aluno.setAluno_id(idGerado);
+                    aluno.setAlunoid(idGerado);
                     System.out.println("ID gerado: " + idGerado);
                 }
             }
+            return true;
         } catch(SQLException e) {
-            System.out.println("Erro ao inserir aluno: " + e.getMessage());
+            System.out.println("Erro ao cadastrar aluno: " + e.getMessage());
         }
+        return false;
     }
 }

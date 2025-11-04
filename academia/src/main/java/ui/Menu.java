@@ -22,7 +22,6 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
-        //jMenuBar1 = new javax.swing.JMenuBar();
     }
 
     /**
@@ -74,23 +73,17 @@ public class Menu extends javax.swing.JFrame {
 
     private void alunoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alunoMenuItemActionPerformed
         // TODO add your handling code here:
-        JTextField emailTextField = new JTextField(15);
-        //JTextField create_timeTextField = new JTextField(15);
         JTextField nomeTextField = new JTextField(15);
-        //JTextField aluno_idTextField = new JTextField(15);
+        JTextField emailTextField = new JTextField(15);
         JTextField pesoTextField = new JTextField(15);
         JTextField alturaTextField = new JTextField(15);
         JTextField sexoTextField = new JTextField(15);
         
         JPanel panel = new JPanel(new java.awt.GridLayout(0, 2, 5, 5));
-        panel.add(new JLabel("Email:"));
-        panel.add(emailTextField);
-        //panel.add(new JLabel("Create_time:"));
-        //panel.add(create_timeTextField);
         panel.add(new JLabel("Nome:"));
         panel.add(nomeTextField);
-        //panel.add(new JLabel("Aluno_id:"));
-        //panel.add(aluno_idTextField);
+        panel.add(new JLabel("Email:"));
+        panel.add(emailTextField);
         panel.add(new JLabel("Peso:"));
         panel.add(pesoTextField);
         panel.add(new JLabel("Altura:"));
@@ -108,20 +101,20 @@ public class Menu extends javax.swing.JFrame {
         
         if(result == JOptionPane.OK_OPTION) {
             
-            String email = emailTextField.getText();
-            //Timestamp create_time = Timestamp.valueOf(create_timeTextField.getText());
             String nome = nomeTextField.getText();
-            //int aluno_id = Integer.parseInt(aluno_idTextField.getText());
+            String email = emailTextField.getText();
             double peso = Double.parseDouble(pesoTextField.getText());
             double altura = Double.parseDouble(alturaTextField.getText());
             char sexo = sexoTextField.getText().charAt(0);
             
             AlunoDAO alunoDAO = new AlunoDAO();
-            Aluno aluno = new Aluno(email, nome, peso, altura, sexo);
+            Aluno aluno = new Aluno(nome, email, peso, altura, sexo);
 
-            alunoDAO.inserir(aluno);
-            
-            JOptionPane.showMessageDialog(this, "Aluno inserido.");
+            if(alunoDAO.inserir(aluno)) {
+                JOptionPane.showMessageDialog(this, "Aluno cadastrado com sucesso.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao cadastrar aluno.");
+            }
         }
     }//GEN-LAST:event_alunoMenuItemActionPerformed
 

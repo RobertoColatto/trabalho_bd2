@@ -12,21 +12,18 @@ import java.sql.Timestamp;
  */
 public class Aluno {
     
-    private String email;
-    //private Timestamp create_time;
+    private int alunoid;
     private String nome;
-    private int aluno_id;
+    private String email;
     private double peso;
     private double altura;
     private char sexo;
     
     public Aluno() {};
     
-    public Aluno(String email, String nome, double peso, double altura, char sexo) {
-        this.email = email;
-        //this.create_time = create_time;
+    public Aluno(String nome, String email, double peso, double altura, char sexo) {
         this.nome = nome;
-        //this.aluno_id = aluno_id;
+        this.email = email;
         this.peso = peso;
         this.altura = altura;
         this.sexo = sexo;
@@ -35,17 +32,13 @@ public class Aluno {
     public String getEmail() {
         return email;
     }
-    /*
-    public Timestamp getCreate_time() {
-        return create_time;
-    }
-    */
+
     public String getNome() {
         return nome;
     }
 
-    public int getAluno_id() {
-        return aluno_id;
+    public int getAlunoid() {
+        return alunoid;
     }
 
     public double getPeso() {
@@ -63,17 +56,13 @@ public class Aluno {
     public void setEmail(String email) {
         this.email = email;
     }
-    /*
-    public void setCreate_time(Timestamp create_time) {
-        this.create_time = create_time;
-    }
-    */
+
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public void setAluno_id(int aluno_id) {
-        this.aluno_id = aluno_id;
+    public void setAlunoid(int aluno_id) {
+        this.alunoid = aluno_id;
     }
 
     public void setPeso(double peso) {
@@ -86,7 +75,5 @@ public class Aluno {
 
     public void setSexo(char sexo) {
         this.sexo = sexo;
-    }
-    
-    
+    }  
 }
