@@ -112,7 +112,13 @@ public class Menu extends javax.swing.JFrame {
         JTextField emailTextField = new JTextField(15);
         JTextField pesoTextField = new JTextField(15);
         JTextField alturaTextField = new JTextField(15);
-        JTextField sexoTextField = new JTextField(15);
+        
+        JRadioButton masculinoRadioButton = new JRadioButton("Masculino");
+        JRadioButton femininoRadioButton = new JRadioButton("Feminino");
+        
+        ButtonGroup sexoButtonGroup = new ButtonGroup();
+        sexoButtonGroup.add(masculinoRadioButton);
+        sexoButtonGroup.add(femininoRadioButton);
         
         JPanel panel = new JPanel(new java.awt.GridLayout(0, 2, 5, 5));
         panel.add(new JLabel("Nome:"));
@@ -124,7 +130,11 @@ public class Menu extends javax.swing.JFrame {
         panel.add(new JLabel("Altura:"));
         panel.add(alturaTextField);
         panel.add(new JLabel("Sexo:"));
-        panel.add(sexoTextField);
+        
+        JPanel sexoPanel = new JPanel();
+        sexoPanel.add(masculinoRadioButton);
+        sexoPanel.add(femininoRadioButton);
+        panel.add(sexoPanel);
         
         int result = JOptionPane.showConfirmDialog(
             this,
@@ -140,7 +150,15 @@ public class Menu extends javax.swing.JFrame {
             String email = emailTextField.getText();
             double peso = Double.parseDouble(pesoTextField.getText());
             double altura = Double.parseDouble(alturaTextField.getText());
-            char sexo = sexoTextField.getText().charAt(0);
+            char sexo;
+            if (masculinoRadioButton.isSelected()) {
+                sexo = 'm';
+            } else if (femininoRadioButton.isSelected()) {
+                sexo = 'f';
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione o sexo.");
+                return;
+            }
             
             AlunoDAO alunoDAO = new AlunoDAO();
             Aluno aluno = new Aluno(nome, email, peso, altura, sexo);
@@ -156,7 +174,7 @@ public class Menu extends javax.swing.JFrame {
     private void professorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_professorMenuItemActionPerformed
         // TODO add your handling code here:
         JTextField nomeTextField = new JTextField(15);
-        //JTextField sexoTextField = new JTextField(15);
+        
         JRadioButton masculinoRadioButton = new JRadioButton("Masculino");
         JRadioButton femininoRadioButton = new JRadioButton("Feminino");
         
