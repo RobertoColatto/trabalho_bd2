@@ -5,6 +5,7 @@
 package dao; //Data Access Object
 
 import java.sql.*;
+import java.util.ArrayList;
 import model.Aluno;
 import constants.Constantes;
 /**
@@ -40,5 +41,45 @@ public class AlunoDAO {
             System.out.println("Erro ao inserir o aluno: " + e.getMessage());
         }
         return false;
+    }
+    
+    public String exibirIdNome() {
+        String idNomeAlunos = "";
+        String sql = "{CALL exibir_id_nome_alunos()}";
+        try(Connection conn = conectar();
+            CallableStatement stmt = conn.prepareCall(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                idNomeAlunos += rs.getInt("alunoid") + " - " + rs.getString("nome") + "\n";
+            }
+        } catch(SQLException e) {
+            System.err.println("Erro ao buscar alunos: " + e.getMessage());
+        }
+        return idNomeAlunos;
+    }
+    
+    public ArrayList<Aluno> buscarPorNome(String nome) throws SQLException {
+        ArrayList<Aluno> alunos = new ArrayList<>();
+
+        String sql = "{CALL buscar_alunos_por_nome(?)}";
+        try(Connection conn = conectar();
+            CallableStatement stmt = conn.prepareCall(sql)) {
+            stmt.setString(1, nome);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                while(rs.next()) {
+                    Aluno aluno = new Aluno();
+                    aluno.setAlunoid(rs.getInt("alunoid"));
+                    aluno.setNome(rs.getString("nome"));
+                    aluno.setEmail(rs.getString("email"));
+                    aluno.setPeso(rs.getDouble("peso"));
+                    aluno.setAltura(rs.getDouble("altura"));
+                    aluno.setSexo(rs.getString("sexo").charAt(0));
+                    aluno.setCreate_time(rs.getTimestamp("create_time"));
+                    alunos.add(aluno);
+                }
+            }
+        }
+        return alunos;
     }
 }

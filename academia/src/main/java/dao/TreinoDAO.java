@@ -44,4 +44,19 @@ public class TreinoDAO {
         }
         return false;
     }
+    
+    public String exibirIdNome() {
+        String idNomeTreinos = "";
+        String sql = "{CALL exibir_id_nome_treinos()}";
+        try(Connection conn = conectar();
+            CallableStatement stmt = conn.prepareCall(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                idNomeTreinos += rs.getInt("treinoid") + " - " + rs.getString("nome") + "\n";
+            }
+        } catch(SQLException e) {
+            System.err.println("Erro ao buscar treinos: " + e.getMessage());
+        }
+        return idNomeTreinos;
+    }
 }

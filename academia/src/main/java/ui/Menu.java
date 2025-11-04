@@ -17,6 +17,7 @@ import dao.AlunoDAO;
 import dao.ProfessorDAO;
 import dao.TreinoDAO;
 import dao.EquipamentoDAO;
+import dao.Aluno_TreinoDAO;
 /**
  *
  * @author Roberto Augusto
@@ -25,11 +26,21 @@ public class Menu extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Menu.class.getName());
 
+    private final AlunoDAO alunoDAO;
+    private final ProfessorDAO professorDAO;
+    private final TreinoDAO treinoDAO;
+    private final EquipamentoDAO equipamentoDAO;
+    private final Aluno_TreinoDAO aluno_treinoDAO;
     /**
      * Creates new form Menu
      */
     public Menu() {
         initComponents();
+        alunoDAO = new AlunoDAO();
+        professorDAO = new ProfessorDAO();
+        treinoDAO = new TreinoDAO();
+        equipamentoDAO = new EquipamentoDAO();
+        aluno_treinoDAO = new Aluno_TreinoDAO();
     }
 
     /**
@@ -47,7 +58,8 @@ public class Menu extends javax.swing.JFrame {
         professorMenuItem = new javax.swing.JMenuItem();
         treinoMenuItem = new javax.swing.JMenuItem();
         equipamentoMenuItem = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        relacionamentoMenu = new javax.swing.JMenu();
+        aluno_treinoMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,8 +99,17 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuBar1.add(insercaoMenu);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        relacionamentoMenu.setText("Relacionar");
+
+        aluno_treinoMenuItem.setText("Aluno-Treino");
+        aluno_treinoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aluno_treinoMenuItemActionPerformed(evt);
+            }
+        });
+        relacionamentoMenu.add(aluno_treinoMenuItem);
+
+        jMenuBar1.add(relacionamentoMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -160,9 +181,7 @@ public class Menu extends javax.swing.JFrame {
                 return;
             }
             
-            AlunoDAO alunoDAO = new AlunoDAO();
             Aluno aluno = new Aluno(nome, email, peso, altura, sexo);
-
             if(alunoDAO.inserir(aluno)) {
                 JOptionPane.showMessageDialog(this, "Aluno inserido com sucesso.");
             } else {
@@ -213,9 +232,7 @@ public class Menu extends javax.swing.JFrame {
                 return;
             }
             
-            ProfessorDAO professorDAO = new ProfessorDAO();
             Professor professor = new Professor(nome, sexo);
-
             if(professorDAO.inserir(professor)) {
                 JOptionPane.showMessageDialog(this, "Professor inserido com sucesso.");
             } else {
@@ -252,9 +269,7 @@ public class Menu extends javax.swing.JFrame {
             String musculo = musculoTextField.getText();
             LocalTime horario = LocalTime.parse(horarioTextField.getText(), DateTimeFormatter.ofPattern("HH:mm"));
             
-            TreinoDAO treinoDAO = new TreinoDAO();
             Treino treino = new Treino(nome, musculo, horario);
-
             if(treinoDAO.inserir(treino)) {
                 JOptionPane.showMessageDialog(this, "Treino inserido com sucesso.");
             } else {
@@ -283,9 +298,7 @@ public class Menu extends javax.swing.JFrame {
             
             String nome = nomeTextField.getText();
             
-            EquipamentoDAO equipamentoDAO = new EquipamentoDAO();
             Equipamento equipamento = new Equipamento(nome);
-
             if(equipamentoDAO.inserir(equipamento)) {
                 JOptionPane.showMessageDialog(this, "Equipamento inserido com sucesso.");
             } else {
@@ -293,6 +306,50 @@ public class Menu extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_equipamentoMenuItemActionPerformed
+
+    private void aluno_treinoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aluno_treinoMenuItemActionPerformed
+        // TODO add your handling code here:
+        JTextArea alunoTextArea = new JTextArea(1, 30);
+        JTextArea treinoTextArea = new JTextArea(1, 30);
+        alunoTextArea.setEditable(false);
+        treinoTextArea.setEditable(false);
+        alunoTextArea.setText(alunoDAO.exibirIdNome());
+        treinoTextArea.setText(treinoDAO.exibirIdNome());
+
+        JPanel panel = new JPanel(new java.awt.GridLayout(0, 1, 5, 5));
+        panel.add(new JLabel("Alunos inseridos:"));
+        panel.add(new JScrollPane(alunoTextArea));
+        panel.add(new JLabel("Treinos inseridos:"));
+        panel.add(new JScrollPane(treinoTextArea));
+        
+        JTextField alunoidTextField = new JTextField(15);
+        JTextField treinoidTextField = new JTextField(15);
+        panel.add(new JLabel("Relação Aluno-Treino:"));
+        panel.add(new JLabel("Id do aluno:"));
+        panel.add(alunoidTextField);
+        panel.add(new JLabel("Id do treino:"));
+        panel.add(treinoidTextField);
+        
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            panel,
+            "Relacionar Aluno e Treino",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+        );
+        
+        if(result == JOptionPane.OK_OPTION) {
+            
+            int alunoid = Integer.parseInt(alunoidTextField.getText());
+            int treinoid = Integer.parseInt(treinoidTextField.getText());
+            
+            if(aluno_treinoDAO.relacionarAlunoTreino(alunoid, treinoid)) {
+                JOptionPane.showMessageDialog(this, "Aluno e treino relacionados com sucesso.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao relacionar o aluno e o treino.");
+            }
+        }
+    }//GEN-LAST:event_aluno_treinoMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -321,11 +378,12 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem alunoMenuItem;
+    private javax.swing.JMenuItem aluno_treinoMenuItem;
     private javax.swing.JMenuItem equipamentoMenuItem;
     private javax.swing.JMenu insercaoMenu;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem professorMenuItem;
+    private javax.swing.JMenu relacionamentoMenu;
     private javax.swing.JMenuItem treinoMenuItem;
     // End of variables declaration//GEN-END:variables
 }

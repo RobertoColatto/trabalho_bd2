@@ -41,3 +41,21 @@ BEGIN
 
     SELECT LAST_INSERT_ID() AS idGerado;
 END$$
+
+DELIMITER $$
+CREATE PROCEDURE exibir_id_nome_alunos()
+BEGIN
+    SELECT alunoid, nome FROM aluno;
+END$$
+
+DELIMITER $$
+CREATE PROCEDURE exibir_id_nome_treinos()
+BEGIN
+    SELECT treinoid, nome FROM treino;
+END$$
+
+DELIMITER $$
+CREATE PROCEDURE relacionar_aluno_treino(IN p_alunoid INT, IN p_treinoid INT)
+BEGIN
+	INSERT INTO cadastro (aluno, treino) values (p_alunoid, p_treinoid);
+END$$
