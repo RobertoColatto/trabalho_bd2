@@ -29,7 +29,7 @@ public class ProfessorDAO {
             stmt.setString(1, professor.getNome());
             stmt.setString(2, String.valueOf(professor.getSexo()));
             stmt.execute();
-            System.out.println("Professor cadastrado com sucesso.");
+            System.out.println("Professor inserido com sucesso.");
             try(ResultSet rs = stmt.getGeneratedKeys()) {
                 if(rs.next()) {
                     int idGerado = rs.getInt(1);
@@ -39,7 +39,7 @@ public class ProfessorDAO {
             }
             return true;
         } catch(SQLException e) {
-            System.out.println("Erro ao cadastrar o professor: " + e.getMessage());
+            System.out.println("Erro ao inserir o professor: " + e.getMessage());
         }
         return false;
     }

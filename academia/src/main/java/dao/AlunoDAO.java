@@ -27,7 +27,7 @@ public class AlunoDAO {
             stmt.setDouble(4, aluno.getAltura());
             stmt.setString(5, String.valueOf(aluno.getSexo()));
             stmt.execute();
-            System.out.println("Aluno cadastrado com sucesso.");
+            System.out.println("Aluno inserido com sucesso.");
             try(ResultSet rs = stmt.getGeneratedKeys()) {
                 if(rs.next()) {
                     int idGerado = rs.getInt(1);
@@ -37,7 +37,7 @@ public class AlunoDAO {
             }
             return true;
         } catch(SQLException e) {
-            System.out.println("Erro ao cadastrar o aluno: " + e.getMessage());
+            System.out.println("Erro ao inserir o aluno: " + e.getMessage());
         }
         return false;
     }

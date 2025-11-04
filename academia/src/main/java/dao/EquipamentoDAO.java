@@ -28,7 +28,7 @@ public class EquipamentoDAO {
             CallableStatement stmt = conn.prepareCall(sql)) {
             stmt.setString(1, equipamento.getNome());
             stmt.execute();
-            System.out.println("Equipamento cadastrado com sucesso.");
+            System.out.println("Equipamento inserido com sucesso.");
             try(ResultSet rs = stmt.getGeneratedKeys()) {
                 if(rs.next()) {
                     int idGerado = rs.getInt(1);
@@ -38,7 +38,7 @@ public class EquipamentoDAO {
             }
             return true;
         } catch(SQLException e) {
-            System.out.println("Erro ao cadastrar o equipamento: " + e.getMessage());
+            System.out.println("Erro ao inserir o equipamento: " + e.getMessage());
         }
         return false;
     }

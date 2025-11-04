@@ -42,7 +42,7 @@ public class Menu extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
-        cadastroMenu = new javax.swing.JMenu();
+        insercaoMenu = new javax.swing.JMenu();
         alunoMenuItem = new javax.swing.JMenuItem();
         professorMenuItem = new javax.swing.JMenuItem();
         treinoMenuItem = new javax.swing.JMenuItem();
@@ -51,7 +51,7 @@ public class Menu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cadastroMenu.setText("Cadastro");
+        insercaoMenu.setText("Inserir");
 
         alunoMenuItem.setText("Aluno");
         alunoMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -59,7 +59,7 @@ public class Menu extends javax.swing.JFrame {
                 alunoMenuItemActionPerformed(evt);
             }
         });
-        cadastroMenu.add(alunoMenuItem);
+        insercaoMenu.add(alunoMenuItem);
 
         professorMenuItem.setText("Professor");
         professorMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -67,7 +67,7 @@ public class Menu extends javax.swing.JFrame {
                 professorMenuItemActionPerformed(evt);
             }
         });
-        cadastroMenu.add(professorMenuItem);
+        insercaoMenu.add(professorMenuItem);
 
         treinoMenuItem.setText("Treino");
         treinoMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -75,7 +75,7 @@ public class Menu extends javax.swing.JFrame {
                 treinoMenuItemActionPerformed(evt);
             }
         });
-        cadastroMenu.add(treinoMenuItem);
+        insercaoMenu.add(treinoMenuItem);
 
         equipamentoMenuItem.setText("Equipamento");
         equipamentoMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -83,9 +83,9 @@ public class Menu extends javax.swing.JFrame {
                 equipamentoMenuItemActionPerformed(evt);
             }
         });
-        cadastroMenu.add(equipamentoMenuItem);
+        insercaoMenu.add(equipamentoMenuItem);
 
-        jMenuBar1.add(cadastroMenu);
+        jMenuBar1.add(insercaoMenu);
 
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
@@ -146,9 +146,9 @@ public class Menu extends javax.swing.JFrame {
             Aluno aluno = new Aluno(nome, email, peso, altura, sexo);
 
             if(alunoDAO.inserir(aluno)) {
-                JOptionPane.showMessageDialog(this, "Aluno cadastrado com sucesso.");
+                JOptionPane.showMessageDialog(this, "Aluno inserido com sucesso.");
             } else {
-                JOptionPane.showMessageDialog(this, "Falha ao cadastrar aluno.");
+                JOptionPane.showMessageDialog(this, "Falha ao inserir aluno.");
             }
         }
     }//GEN-LAST:event_alunoMenuItemActionPerformed
@@ -199,9 +199,9 @@ public class Menu extends javax.swing.JFrame {
             Professor professor = new Professor(nome, sexo);
 
             if(professorDAO.inserir(professor)) {
-                JOptionPane.showMessageDialog(this, "Professor cadastrado com sucesso.");
+                JOptionPane.showMessageDialog(this, "Professor inserido com sucesso.");
             } else {
-                JOptionPane.showMessageDialog(this, "Falha ao cadastrar o professor.");
+                JOptionPane.showMessageDialog(this, "Falha ao inserir o professor.");
             }
         }
     }//GEN-LAST:event_professorMenuItemActionPerformed
@@ -238,9 +238,9 @@ public class Menu extends javax.swing.JFrame {
             Treino treino = new Treino(nome, musculo, horario);
 
             if(treinoDAO.inserir(treino)) {
-                JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso.");
+                JOptionPane.showMessageDialog(this, "Treino inserido com sucesso.");
             } else {
-                JOptionPane.showMessageDialog(this, "Falha ao cadastrar o treino.");
+                JOptionPane.showMessageDialog(this, "Falha ao inserir o treino.");
             }
         }
     }//GEN-LAST:event_treinoMenuItemActionPerformed
@@ -269,9 +269,9 @@ public class Menu extends javax.swing.JFrame {
             Equipamento equipamento = new Equipamento(nome);
 
             if(equipamentoDAO.inserir(equipamento)) {
-                JOptionPane.showMessageDialog(this, "Equipamento cadastrado com sucesso.");
+                JOptionPane.showMessageDialog(this, "Equipamento inserido com sucesso.");
             } else {
-                JOptionPane.showMessageDialog(this, "Falha ao cadastrar o equipamento.");
+                JOptionPane.showMessageDialog(this, "Falha ao inserir o equipamento.");
             }
         }
     }//GEN-LAST:event_equipamentoMenuItemActionPerformed
@@ -303,8 +303,8 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem alunoMenuItem;
-    private javax.swing.JMenu cadastroMenu;
     private javax.swing.JMenuItem equipamentoMenuItem;
+    private javax.swing.JMenu insercaoMenu;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem professorMenuItem;

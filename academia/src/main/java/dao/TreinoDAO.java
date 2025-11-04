@@ -30,7 +30,7 @@ public class TreinoDAO {
             stmt.setString(2, treino.getMusculo());
             stmt.setTime(3, java.sql.Time.valueOf(treino.getHorario()));
             stmt.execute();
-            System.out.println("Treino cadastrado com sucesso.");
+            System.out.println("Treino inserido com sucesso.");
             try(ResultSet rs = stmt.getGeneratedKeys()) {
                 if(rs.next()) {
                     int idGerado = rs.getInt(1);
@@ -40,7 +40,7 @@ public class TreinoDAO {
             }
             return true;
         } catch(SQLException e) {
-            System.out.println("Erro ao cadastrar o treino: " + e.getMessage());
+            System.out.println("Erro ao inserir o treino: " + e.getMessage());
         }
         return false;
     }

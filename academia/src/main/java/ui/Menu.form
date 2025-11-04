@@ -4,9 +4,9 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="cadastroMenu">
+        <Menu class="javax.swing.JMenu" name="insercaoMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cadastro"/>
+            <Property name="text" type="java.lang.String" value="Inserir"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="alunoMenuItem">
