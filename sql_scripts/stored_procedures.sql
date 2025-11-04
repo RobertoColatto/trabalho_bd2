@@ -32,3 +32,12 @@ BEGIN
 
     SELECT LAST_INSERT_ID() AS idGerado;
 END$$
+
+DELIMITER $$
+CREATE PROCEDURE inserir_equipamento(IN p_nome varchar(255))
+BEGIN
+    INSERT INTO equipamentos (nome)
+    VALUES (p_nome);
+
+    SELECT LAST_INSERT_ID() AS idGerado;
+END$$
