@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Treino;
+import constants.Constantes;
 
 /**
  *
@@ -17,12 +18,8 @@ import model.Treino;
  */
 public class TreinoDAO {
     
-    private final String URL = "jdbc:mysql://localhost:3306/academia";
-    private final String USER = "root";
-    private final String PASSWORD = "sonic06kkk";
-    
     private Connection conectar() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(Constantes.URL, Constantes.USER, Constantes.PASSWORD);
     }
     
     public boolean inserir(Treino treino) {

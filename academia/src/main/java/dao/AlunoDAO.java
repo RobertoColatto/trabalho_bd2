@@ -6,18 +6,15 @@ package dao; //Data Access Object
 
 import java.sql.*;
 import model.Aluno;
+import constants.Constantes;
 /**
  *
  * @author Roberto Augusto
  */
 public class AlunoDAO {
     
-    private final String URL = "jdbc:mysql://localhost:3306/academia";
-    private final String USER = "root";
-    private final String PASSWORD = "sonic06kkk";
-    
     private Connection conectar() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(Constantes.URL, Constantes.USER, Constantes.PASSWORD);
     }
     
     public boolean inserir(Aluno aluno) {
