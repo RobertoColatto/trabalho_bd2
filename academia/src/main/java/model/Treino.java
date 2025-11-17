@@ -4,55 +4,69 @@
  */
 package model;
 
-import java.time.LocalTime;
 /**
  *
  * @author Roberto Augusto
  */
 public class Treino {
     
+    private int id;
+    private int idAluno;
+    private int idProfessor;
     private String nome;
-    private String musculo;
-    private int treinoid;
-    private LocalTime horario;
+    private String focoTreino;
     
     public Treino() {}
     
-    public Treino(String nome, String musculo, LocalTime horario) {
+    public Treino(int idAluno, int idProfessor, String nome, String focoTreino) {
+        this.idAluno = idAluno;
+        this.idProfessor = idProfessor;
         this.nome = nome;
-        this.musculo = musculo;
-        this.horario = horario;
+        this.focoTreino = focoTreino;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getIdAluno() {
+        return idAluno;
+    }
+
+    public void setIdAluno(int idAluno) {
+        this.idAluno = idAluno;
+    }
+
+    public int getIdProfessor() {
+        return idProfessor;
+    }
+
+    public void setIdProfessor(int idProfessor) {
+        this.idProfessor = idProfessor;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public String getMusculo() {
-        return musculo;
-    }
-
-    public int getTreinoid() {
-        return treinoid;
-    }
-
-    public LocalTime getHorario() {
-        return horario;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public void setMusculo(String musculo) {
-        this.musculo = musculo;
+    public String getFocoTreino() {
+        return focoTreino;
     }
 
-    public void setTreinoid(int treinoid) {
-        this.treinoid = treinoid;
+    public void setFocoTreino(String focoTreino) {
+        this.focoTreino = focoTreino;
     }
 
-    public void setHorario(LocalTime horario) {
-        this.horario = horario;
+    @Override
+    public String toString() {
+        return id + " - " + nome + " (" + focoTreino + ")";
     }
 }

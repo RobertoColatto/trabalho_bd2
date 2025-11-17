@@ -6,9 +6,6 @@ package ui;
 
 import javax.swing.*;
 import java.awt.GridLayout;
-import java.sql.Timestamp;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import model.Aluno;
 import model.Professor;
 import model.Treino;
@@ -98,22 +95,22 @@ public class Menu extends javax.swing.JFrame {
     private void alunoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alunoMenuItemActionPerformed
         // TODO add your handling code here:
         JTextField nomeTextField = new JTextField(15);
-        JTextField emailTextField = new JTextField(15);
-        JTextField pesoTextField = new JTextField(15);
-        JTextField alturaTextField = new JTextField(15);
+        JTextField dataNascimentoTextField = new JTextField(15);
         JTextField sexoTextField = new JTextField(15);
+        JTextField telefoneTextField = new JTextField(15);
+        JTextField emailTextField = new JTextField(15);
         
         JPanel panel = new JPanel(new java.awt.GridLayout(0, 2, 5, 5));
         panel.add(new JLabel("Nome:"));
         panel.add(nomeTextField);
+        panel.add(new JLabel("Data Nascimento (yyyy-MM-dd):"));
+        panel.add(dataNascimentoTextField);
+        panel.add(new JLabel("Sexo (M/F):"));
+        panel.add(sexoTextField);
+        panel.add(new JLabel("Telefone:"));
+        panel.add(telefoneTextField);
         panel.add(new JLabel("Email:"));
         panel.add(emailTextField);
-        panel.add(new JLabel("Peso:"));
-        panel.add(pesoTextField);
-        panel.add(new JLabel("Altura:"));
-        panel.add(alturaTextField);
-        panel.add(new JLabel("Sexo:"));
-        panel.add(sexoTextField);
         
         int result = JOptionPane.showConfirmDialog(
             this,
@@ -124,20 +121,24 @@ public class Menu extends javax.swing.JFrame {
         );
         
         if(result == JOptionPane.OK_OPTION) {
-            
-            String nome = nomeTextField.getText();
-            String email = emailTextField.getText();
-            double peso = Double.parseDouble(pesoTextField.getText());
-            double altura = Double.parseDouble(alturaTextField.getText());
-            char sexo = sexoTextField.getText().charAt(0);
-            
-            AlunoDAO alunoDAO = new AlunoDAO();
-            Aluno aluno = new Aluno(nome, email, peso, altura, sexo);
+            try {
+                String nome = nomeTextField.getText();
+                java.sql.Date dataNascimento = java.sql.Date.valueOf(dataNascimentoTextField.getText());
+                char sexo = sexoTextField.getText().toUpperCase().charAt(0);
+                String telefone = telefoneTextField.getText();
+                String email = emailTextField.getText();
+                java.sql.Date dataCadastro = new java.sql.Date(System.currentTimeMillis());
+                
+                AlunoDAO alunoDAO = new AlunoDAO();
+                Aluno aluno = new Aluno(nome, dataNascimento, sexo, telefone, email, dataCadastro);
 
-            if(alunoDAO.inserir(aluno)) {
-                JOptionPane.showMessageDialog(this, "Aluno cadastrado com sucesso.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Falha ao cadastrar aluno.");
+                if(alunoDAO.inserir(aluno)) {
+                    JOptionPane.showMessageDialog(this, "Aluno cadastrado com sucesso.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Falha ao cadastrar aluno.");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
             }
         }
     }//GEN-LAST:event_alunoMenuItemActionPerformed
@@ -145,7 +146,9 @@ public class Menu extends javax.swing.JFrame {
     private void professorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_professorMenuItemActionPerformed
         // TODO add your handling code here:
         JTextField nomeTextField = new JTextField(15);
-        //JTextField sexoTextField = new JTextField(15);
+        JTextField crefTextField = new JTextField(15);
+        JTextField telefoneTextField = new JTextField(15);
+        JTextField emailTextField = new JTextField(15);
         JRadioButton masculinoRadioButton = new JRadioButton("Masculino");
         JRadioButton femininoRadioButton = new JRadioButton("Feminino");
         
@@ -162,6 +165,12 @@ public class Menu extends javax.swing.JFrame {
         sexoPanel.add(masculinoRadioButton);
         sexoPanel.add(femininoRadioButton);
         panel.add(sexoPanel);
+        panel.add(new JLabel("CREF:"));
+        panel.add(crefTextField);
+        panel.add(new JLabel("Telefone:"));
+        panel.add(telefoneTextField);
+        panel.add(new JLabel("Email:"));
+        panel.add(emailTextField);
         
         int result = JOptionPane.showConfirmDialog(
             this,
@@ -172,25 +181,31 @@ public class Menu extends javax.swing.JFrame {
         );
         
         if(result == JOptionPane.OK_OPTION) {
-            
-            String nome = nomeTextField.getText();
-            char sexo;
-            if (masculinoRadioButton.isSelected()) {
-                sexo = 'm';
-            } else if (femininoRadioButton.isSelected()) {
-                sexo = 'f';
-            } else {
-                JOptionPane.showMessageDialog(this, "Selecione o sexo.");
-                return;
-            }
-            
-            ProfessorDAO professorDAO = new ProfessorDAO();
-            Professor professor = new Professor(nome, sexo);
+            try {
+                String nome = nomeTextField.getText();
+                char sexo;
+                if (masculinoRadioButton.isSelected()) {
+                    sexo = 'M';
+                } else if (femininoRadioButton.isSelected()) {
+                    sexo = 'F';
+                } else {
+                    JOptionPane.showMessageDialog(this, "Selecione o sexo.");
+                    return;
+                }
+                String cref = crefTextField.getText();
+                String telefone = telefoneTextField.getText();
+                String email = emailTextField.getText();
+                
+                ProfessorDAO professorDAO = new ProfessorDAO();
+                Professor professor = new Professor(nome, sexo, cref, telefone, email);
 
-            if(professorDAO.inserir(professor)) {
-                JOptionPane.showMessageDialog(this, "Professor cadastrado com sucesso.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Falha ao cadastrar o professor.");
+                if(professorDAO.inserir(professor)) {
+                    JOptionPane.showMessageDialog(this, "Professor cadastrado com sucesso.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Falha ao cadastrar o professor.");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
             }
         }
     }//GEN-LAST:event_professorMenuItemActionPerformed
@@ -198,16 +213,19 @@ public class Menu extends javax.swing.JFrame {
     private void treinoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treinoMenuItemActionPerformed
         // TODO add your handling code here:
         JTextField nomeTextField = new JTextField(15);
-        JTextField musculoTextField = new JTextField(15);
-        JTextField horarioTextField = new JTextField(15);
+        JTextField focoTreinoTextField = new JTextField(15);
+        JTextField idAlunoTextField = new JTextField(15);
+        JTextField idProfessorTextField = new JTextField(15);
         
         JPanel panel = new JPanel(new java.awt.GridLayout(0, 2, 5, 5));
-        panel.add(new JLabel("Nome:"));
+        panel.add(new JLabel("ID do Aluno:"));
+        panel.add(idAlunoTextField);
+        panel.add(new JLabel("ID do Professor:"));
+        panel.add(idProfessorTextField);
+        panel.add(new JLabel("Nome do Treino:"));
         panel.add(nomeTextField);
-        panel.add(new JLabel("Músculo:"));
-        panel.add(musculoTextField);
-        panel.add(new JLabel("Horário (HH:mm):"));
-        panel.add(horarioTextField);
+        panel.add(new JLabel("Foco do Treino:"));
+        panel.add(focoTreinoTextField);
         
         int result = JOptionPane.showConfirmDialog(
             this,
@@ -218,18 +236,22 @@ public class Menu extends javax.swing.JFrame {
         );
         
         if(result == JOptionPane.OK_OPTION) {
-            
-            String nome = nomeTextField.getText();
-            String musculo = musculoTextField.getText();
-            LocalTime horario = LocalTime.parse(horarioTextField.getText(), DateTimeFormatter.ofPattern("HH:mm"));
-            
-            TreinoDAO treinoDAO = new TreinoDAO();
-            Treino treino = new Treino(nome, musculo, horario);
+            try {
+                int idAluno = Integer.parseInt(idAlunoTextField.getText());
+                int idProfessor = Integer.parseInt(idProfessorTextField.getText());
+                String nome = nomeTextField.getText();
+                String focoTreino = focoTreinoTextField.getText();
+                
+                TreinoDAO treinoDAO = new TreinoDAO();
+                Treino treino = new Treino(idAluno, idProfessor, nome, focoTreino);
 
-            if(treinoDAO.inserir(treino)) {
-                JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Falha ao cadastrar o treino.");
+                if(treinoDAO.inserir(treino)) {
+                    JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Falha ao cadastrar o treino.");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
             }
         }
     }//GEN-LAST:event_treinoMenuItemActionPerformed

@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 /**
  *
@@ -12,68 +12,83 @@ import java.sql.Timestamp;
  */
 public class Aluno {
     
-    private int alunoid;
+    private int id;
     private String nome;
-    private String email;
-    private double peso;
-    private double altura;
+    private Date dataNascimento;
     private char sexo;
+    private String telefone;
+    private String email;
+    private Date dataCadastro;
     
     public Aluno() {};
     
-    public Aluno(String nome, String email, double peso, double altura, char sexo) {
+    public Aluno(String nome, Date dataNascimento, char sexo, String telefone, String email, Date dataCadastro) {
         this.nome = nome;
-        this.email = email;
-        this.peso = peso;
-        this.altura = altura;
+        this.dataNascimento = dataNascimento;
         this.sexo = sexo;
+        this.telefone = telefone;
+        this.email = email;
+        this.dataCadastro = dataCadastro;
     }
 
-    public String getEmail() {
-        return email;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public int getAlunoid() {
-        return alunoid;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public double getPeso() {
-        return peso;
+    public Date getDataNascimento() {
+        return dataNascimento;
     }
 
-    public double getAltura() {
-        return altura;
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public char getSexo() {
         return sexo;
     }
 
+    public void setSexo(char sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public Date getDataCadastro() {
+        return dataCadastro;
     }
 
-    public void setAlunoid(int aluno_id) {
-        this.alunoid = aluno_id;
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
-    public void setPeso(double peso) {
-        this.peso = peso;
+    @Override
+    public String toString() {
+        return id + " - " + nome;
     }
-
-    public void setAltura(double altura) {
-        this.altura = altura;
-    }
-
-    public void setSexo(char sexo) {
-        this.sexo = sexo;
-    }  
 }
