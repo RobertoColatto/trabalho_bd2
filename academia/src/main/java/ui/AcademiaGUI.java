@@ -799,19 +799,20 @@ public class AcademiaGUI extends JFrame {
     
     private void addEquipamento(DefaultTableModel model) {
         JTextField nomeField = new JTextField(20);
-        JTextField tipoField = new JTextField(20);
+        JComboBox<String> tipoCombo = new JComboBox<>(new String[]{"Máquina", "Peso livre"});
         
         JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));
         panel.add(new JLabel("Nome:"));
         panel.add(nomeField);
         panel.add(new JLabel("Tipo:"));
-        panel.add(tipoField);
+        panel.add(tipoCombo);
         
         int result = JOptionPane.showConfirmDialog(this, panel, "Adicionar Equipamento", 
             JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         
         if (result == JOptionPane.OK_OPTION) {
-            Equipamento equipamento = new Equipamento(nomeField.getText(), tipoField.getText());
+            String tipo = (String) tipoCombo.getSelectedItem();
+            Equipamento equipamento = new Equipamento(nomeField.getText(), tipo);
             if (equipamentoDAO.inserir(equipamento)) {
                 JOptionPane.showMessageDialog(this, "Equipamento cadastrado com sucesso!");
                 loadEquipamentos(model);
@@ -833,19 +834,21 @@ public class AcademiaGUI extends JFrame {
         String tipo = (String) model.getValueAt(selectedRow, 2);
         
         JTextField nomeField = new JTextField(nome, 20);
-        JTextField tipoField = new JTextField(tipo, 20);
+        JComboBox<String> tipoCombo = new JComboBox<>(new String[]{"Máquina", "Peso livre"});
+        tipoCombo.setSelectedItem(tipo);
         
         JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));
         panel.add(new JLabel("Nome:"));
         panel.add(nomeField);
         panel.add(new JLabel("Tipo:"));
-        panel.add(tipoField);
+        panel.add(tipoCombo);
         
         int result = JOptionPane.showConfirmDialog(this, panel, "Editar Equipamento", 
             JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         
         if (result == JOptionPane.OK_OPTION) {
-            Equipamento equipamento = new Equipamento(nomeField.getText(), tipoField.getText());
+            String tipoSelecionado = (String) tipoCombo.getSelectedItem();
+            Equipamento equipamento = new Equipamento(nomeField.getText(), tipoSelecionado);
             equipamento.setId(id);
             
             if (equipamentoDAO.atualizar(equipamento)) {
@@ -906,11 +909,13 @@ public class AcademiaGUI extends JFrame {
         JButton addBtn = createStyledButton("➕ Adicionar", new Color(46, 125, 50));
         JButton editBtn = createStyledButton("✏️ Editar", new Color(255, 152, 0));
         JButton deleteBtn = createStyledButton("🗑️ Excluir", new Color(211, 47, 47));
+        JButton detailsBtn = createStyledButton("📋 Ver Exercícios", new Color(103, 58, 183));
         JButton refreshBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
         
         buttonPanel.add(addBtn);
         buttonPanel.add(editBtn);
         buttonPanel.add(deleteBtn);
+        buttonPanel.add(detailsBtn);
         buttonPanel.add(refreshBtn);
         
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -919,6 +924,7 @@ public class AcademiaGUI extends JFrame {
         addBtn.addActionListener(e -> addTreino(model));
         editBtn.addActionListener(e -> editTreino(table, model));
         deleteBtn.addActionListener(e -> deleteTreino(table, model));
+        detailsBtn.addActionListener(e -> showTreinoDetails(table));
         refreshBtn.addActionListener(e -> loadTreinos(model));
         
         loadTreinos(model);
@@ -979,6 +985,16 @@ public class AcademiaGUI extends JFrame {
                 
                 if (treinoDAO.inserir(treino)) {
                     JOptionPane.showMessageDialog(this, "Treino cadastrado com sucesso!");
+                    
+                    // Perguntar se deseja adicionar exercícios
+                    int addExercicios = JOptionPane.showConfirmDialog(this, 
+                        "Deseja adicionar exercícios ao treino agora?", 
+                        "Adicionar Exercícios", JOptionPane.YES_NO_OPTION);
+                    
+                    if (addExercicios == JOptionPane.YES_OPTION) {
+                        manageTreinoItems(treino.getId());
+                    }
+                    
                     loadTreinos(model);
                 } else {
                     JOptionPane.showMessageDialog(this, "Erro ao cadastrar treino!");
@@ -1079,6 +1095,204 @@ public class AcademiaGUI extends JFrame {
                 loadTreinos(model);
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao excluir treino!");
+            }
+        }
+    }
+    
+    private void showTreinoDetails(JTable table) {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um treino para ver os detalhes!");
+            return;
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int treinoId = (int) model.getValueAt(selectedRow, 0);
+        String treinoNome = (String) model.getValueAt(selectedRow, 3);
+        
+        manageTreinoItems(treinoId);
+    }
+    
+    private void manageTreinoItems(int treinoId) {
+        JFrame itemFrame = new JFrame("Exercícios do Treino - ID: " + treinoId);
+        itemFrame.setSize(900, 600);
+        itemFrame.setLocationRelativeTo(this);
+        
+        String[] columns = {"ID", "Exercício", "Equipamento", "Séries", "Repetições", "Carga (kg)"};
+        DefaultTableModel itemModel = new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        JTable itemTable = new JTable(itemModel);
+        itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        itemTable.getTableHeader().setBackground(new Color(70, 130, 180));
+        itemTable.getTableHeader().setForeground(Color.WHITE);
+        itemTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        itemTable.setRowHeight(25);
+        
+        JScrollPane scrollPane = new JScrollPane(itemTable);
+        
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        JButton addItemBtn = createStyledButton("➕ Adicionar Exercício", new Color(46, 125, 50));
+        JButton removeItemBtn = createStyledButton("🗑️ Remover", new Color(211, 47, 47));
+        JButton refreshItemBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
+        JButton closeBtn = createStyledButton("✖️ Fechar", new Color(158, 158, 158));
+        
+        buttonPanel.add(addItemBtn);
+        buttonPanel.add(removeItemBtn);
+        buttonPanel.add(refreshItemBtn);
+        buttonPanel.add(closeBtn);
+        
+        itemFrame.add(scrollPane, BorderLayout.CENTER);
+        itemFrame.add(buttonPanel, BorderLayout.SOUTH);
+        
+        // Carregar itens do treino
+        loadTreinoItems(itemModel, treinoId);
+        
+        // Ações dos botões
+        addItemBtn.addActionListener(e -> addTreinoItem(itemModel, treinoId));
+        removeItemBtn.addActionListener(e -> removeTreinoItem(itemTable, itemModel));
+        refreshItemBtn.addActionListener(e -> loadTreinoItems(itemModel, treinoId));
+        closeBtn.addActionListener(e -> itemFrame.dispose());
+        
+        itemFrame.setVisible(true);
+    }
+    
+    private void loadTreinoItems(DefaultTableModel model, int treinoId) {
+        model.setRowCount(0);
+        List<ItemTreino> itens = itemTreinoDAO.listarPorTreino(treinoId);
+        
+        for (ItemTreino item : itens) {
+            // Buscar nomes dos exercícios e equipamentos
+            String nomeExercicio = "Exercício " + item.getIdExercicio();
+            String nomeEquipamento = "Equipamento " + item.getIdEquipamento();
+            
+            try {
+                // Buscar nome do exercício
+                List<Exercicio> exercicios = exercicioDAO.listar();
+                for (Exercicio ex : exercicios) {
+                    if (ex.getId() == item.getIdExercicio()) {
+                        nomeExercicio = ex.getNome();
+                        break;
+                    }
+                }
+                
+                // Buscar nome do equipamento
+                List<Equipamento> equipamentos = equipamentoDAO.listar();
+                for (Equipamento eq : equipamentos) {
+                    if (eq.getId() == item.getIdEquipamento()) {
+                        nomeEquipamento = eq.getNome();
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Erro ao buscar nomes: " + e.getMessage());
+            }
+            
+            model.addRow(new Object[]{
+                item.getId(),
+                nomeExercicio,
+                nomeEquipamento,
+                item.getSeries(),
+                item.getRepeticoes(),
+                item.getCarga()
+            });
+        }
+    }
+    
+    private void addTreinoItem(DefaultTableModel model, int treinoId) {
+        JComboBox<String> exercicioCombo = new JComboBox<>();
+        JComboBox<String> equipamentoCombo = new JComboBox<>();
+        JSpinner seriesSpinner = new JSpinner(new SpinnerNumberModel(3, 1, 20, 1));
+        JSpinner repeticoesSpinner = new JSpinner(new SpinnerNumberModel(10, 1, 100, 1));
+        JTextField cargaField = new JTextField("0.0", 10);
+        
+        // Carregar exercícios
+        List<Exercicio> exercicios = exercicioDAO.listar();
+        for (Exercicio ex : exercicios) {
+            exercicioCombo.addItem(ex.getId() + " - " + ex.getNome());
+        }
+        
+        // Carregar equipamentos
+        List<Equipamento> equipamentos = equipamentoDAO.listar();
+        for (Equipamento eq : equipamentos) {
+            equipamentoCombo.addItem(eq.getId() + " - " + eq.getNome());
+        }
+        
+        if (exercicioCombo.getItemCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Nenhum exercício cadastrado! Cadastre exercícios primeiro.");
+            return;
+        }
+        
+        if (equipamentoCombo.getItemCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Nenhum equipamento cadastrado! Cadastre equipamentos primeiro.");
+            return;
+        }
+        
+        JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
+        panel.add(new JLabel("Exercício:"));
+        panel.add(exercicioCombo);
+        panel.add(new JLabel("Equipamento:"));
+        panel.add(equipamentoCombo);
+        panel.add(new JLabel("Séries:"));
+        panel.add(seriesSpinner);
+        panel.add(new JLabel("Repetições:"));
+        panel.add(repeticoesSpinner);
+        panel.add(new JLabel("Carga (kg):"));
+        panel.add(cargaField);
+        
+        int result = JOptionPane.showConfirmDialog(this, panel, "Adicionar Exercício ao Treino", 
+            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        
+        if (result == JOptionPane.OK_OPTION) {
+            try {
+                String exercicioSel = (String) exercicioCombo.getSelectedItem();
+                String equipamentoSel = (String) equipamentoCombo.getSelectedItem();
+                
+                int idExercicio = Integer.parseInt(exercicioSel.split(" - ")[0]);
+                int idEquipamento = Integer.parseInt(equipamentoSel.split(" - ")[0]);
+                int series = (Integer) seriesSpinner.getValue();
+                int repeticoes = (Integer) repeticoesSpinner.getValue();
+                double carga = Double.parseDouble(cargaField.getText());
+                
+                ItemTreino item = new ItemTreino(treinoId, idExercicio, idEquipamento, 
+                    series, repeticoes, java.math.BigDecimal.valueOf(carga));
+                
+                if (itemTreinoDAO.inserir(item)) {
+                    JOptionPane.showMessageDialog(this, "Exercício adicionado com sucesso!");
+                    loadTreinoItems(model, treinoId);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao adicionar exercício!");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
+            }
+        }
+    }
+    
+    private void removeTreinoItem(JTable table, DefaultTableModel model) {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um exercício para remover!");
+            return;
+        }
+        
+        int itemId = (int) model.getValueAt(selectedRow, 0);
+        String exercicio = (String) model.getValueAt(selectedRow, 1);
+        
+        int confirm = JOptionPane.showConfirmDialog(this, 
+            "Deseja realmente remover o exercício " + exercicio + " do treino?", 
+            "Confirmar Remoção", JOptionPane.YES_NO_OPTION);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            if (itemTreinoDAO.excluir(itemId)) {
+                JOptionPane.showMessageDialog(this, "Exercício removido com sucesso!");
+                model.removeRow(selectedRow);
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao remover exercício!");
             }
         }
     }
