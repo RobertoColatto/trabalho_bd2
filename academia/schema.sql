@@ -1185,5 +1185,86 @@ END//
 DELIMITER ;
 
 -- =============================================
+-- INSERTS PARA POPULAR O BANCO DE DADOS
+-- =============================================
+
+-- INSERTS: PROFESSOR
+INSERT INTO professor (nome, sexo, cref, telefone, email) VALUES
+('Carlos Almeida', 'M', 'CREF12345', '11988887777', 'carlos.almeida@academia.com'),
+('Fernanda Souza', 'F', 'CREF54321', '11999995555', 'fernanda.souza@academia.com'),
+('Rodrigo Lima', 'M', 'CREF77788', '11977776666', 'rodrigo.lima@academia.com');
+
+-- INSERTS: ALUNO
+INSERT INTO aluno (nome, data_nascimento, sexo, telefone, email, data_cadastro) VALUES
+('João Pereira', '1998-04-15', 'M', '11955554444', 'joao.pereira@gmail.com', CURDATE()),
+('Ana Beatriz', '2001-10-22', 'F', '11944443333', 'ana.beatriz@gmail.com', CURDATE()),
+('Marcos Silva', '1995-06-09', 'M', '11922221111', 'marcos.silva@gmail.com', CURDATE()),
+('Juliana Costa', '1999-02-10', 'F', '11933332222', 'juliana.costa@gmail.com', CURDATE());
+
+-- INSERTS: EQUIPAMENTO
+INSERT INTO equipamento (nome, tipo) VALUES
+('Leg Press', 'Máquina'),
+('Supino Reto', 'Máquina'),
+('Halter 10kg', 'Peso Livre'),
+('Halter 20kg', 'Peso Livre'),
+('Corda Naval', 'Acessório'),
+('Barra W', 'Peso Livre'),
+('Esteira', 'Máquina');
+
+-- INSERTS: EXERCICIO
+INSERT INTO exercicio (nome) VALUES
+('Supino Reto'),
+('Agachamento Livre'),
+('Puxada Frontal'),
+('Rosca Direta'),
+('Tríceps Testa'),
+('Cadeira Extensora'),
+('Leg Press'),
+('Desenvolvimento com Halteres');
+
+-- INSERTS: TREINO
+INSERT INTO treino (id_aluno, id_professor, nome, foco_treino) VALUES
+(1, 1, 'Treino A - Peito e Tríceps', 'Hipertrofia'),
+(1, 2, 'Treino B - Pernas', 'Força'),
+(2, 1, 'Treino A - Full Body', 'Resistência'),
+(3, 3, 'Treino A - Upper', 'Hipertrofia'),
+(4, 2, 'Treino A - Pernas e Glúteos', 'Hipertrofia');
+
+-- INSERTS: ITEM_TREINO
+INSERT INTO item_treino (id_treino, id_exercicio, id_equipamento, series, repeticoes, carga) VALUES
+-- Treino 1
+(1, 1, 2, 4, 12, 40.0),
+(1, 4, 6, 3, 12, 20.0),
+(1, 5, 6, 3, 15, 15.0),
+
+-- Treino 2
+(2, 7, 1, 4, 12, 100.0),
+(2, 2, 6, 4, 10, NULL),
+(2, 6, 6, 3, 15, NULL),
+
+-- Treino 3
+(3, 1, 2, 3, 12, 30.0),
+(3, 3, 6, 3, 12, NULL),
+(3, 8, 3, 4, 10, 12.0),
+
+-- Treino 4
+(4, 1, 2, 4, 10, 50.0),
+(4, 4, 6, 4, 12, 20.0),
+(4, 3, 6, 3, 12, NULL),
+
+-- Treino 5
+(5, 2, 6, 4, 10, NULL),
+(5, 7, 1, 4, 12, 120.0),
+(5, 6, 6, 3, 15, NULL);
+
+-- INSERTS: AVALIAÇÃO FÍSICA
+INSERT INTO avaliacao_fisica (id_aluno, id_professor, data_avaliacao, altura, peso, percentual_gordura)
+VALUES
+(1, 1, CURDATE(), 1.78, 80.5, 16.0),
+(2, 2, CURDATE(), 1.65, 60.2, 22.0),
+(3, 3, CURDATE(), 1.82, 95.3, 25.0),
+(4, 2, CURDATE(), 1.70, 68.0, 21.0);
+
+-- =============================================
 -- FIM DO SCRIPT
 -- =============================================
