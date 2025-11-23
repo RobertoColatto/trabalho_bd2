@@ -49,7 +49,7 @@ public class AcademiaGUI extends JFrame {
         
         // Criar abas
         tabbedPane = new JTabbedPane();
-        tabbedPane.setFont(new Font("Arial", Font.BOLD, 12));
+        tabbedPane.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
         
         tabbedPane.addTab("🏠 Início", welcomePanel);
         tabbedPane.addTab("👥 Alunos", createAlunoPanel());
@@ -83,8 +83,9 @@ public class AcademiaGUI extends JFrame {
         subtitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JLabel iconLabel = new JLabel("💪 🏋️ 🏃");
-        iconLabel.setFont(new Font("Arial", Font.PLAIN, 48));
+        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
         iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        iconLabel.setBorder(BorderFactory.createEmptyBorder(30, 20, 0, 20));
         
         centerPanel.add(Box.createVerticalGlue());
         centerPanel.add(iconLabel);
@@ -126,6 +127,10 @@ public class AcademiaGUI extends JFrame {
         JButton editBtn = createStyledButton("✏️ Editar", new Color(255, 152, 0));
         JButton deleteBtn = createStyledButton("🗑️ Excluir", new Color(211, 47, 47));
         JButton refreshBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
+        addBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        editBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        deleteBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        refreshBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
         
         buttonPanel.add(addBtn);
         buttonPanel.add(editBtn);
@@ -470,6 +475,10 @@ public class AcademiaGUI extends JFrame {
         JButton editBtn = createStyledButton("✏️ Editar", new Color(255, 152, 0));
         JButton deleteBtn = createStyledButton("🗑️ Excluir", new Color(211, 47, 47));
         JButton refreshBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
+        addBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        editBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        deleteBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        refreshBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
         
         buttonPanel.add(addBtn);
         buttonPanel.add(editBtn);
@@ -653,6 +662,10 @@ public class AcademiaGUI extends JFrame {
         JButton editBtn = createStyledButton("✏️ Editar", new Color(255, 152, 0));
         JButton deleteBtn = createStyledButton("🗑️ Excluir", new Color(211, 47, 47));
         JButton refreshBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
+        addBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        editBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        deleteBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        refreshBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
         
         buttonPanel.add(addBtn);
         buttonPanel.add(editBtn);
@@ -770,6 +783,10 @@ public class AcademiaGUI extends JFrame {
         JButton editBtn = createStyledButton("✏️ Editar", new Color(255, 152, 0));
         JButton deleteBtn = createStyledButton("🗑️ Excluir", new Color(211, 47, 47));
         JButton refreshBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
+        addBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        editBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        deleteBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        refreshBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
         
         buttonPanel.add(addBtn);
         buttonPanel.add(editBtn);
@@ -911,6 +928,11 @@ public class AcademiaGUI extends JFrame {
         JButton deleteBtn = createStyledButton("🗑️ Excluir", new Color(211, 47, 47));
         JButton detailsBtn = createStyledButton("📋 Ver Exercícios", new Color(103, 58, 183));
         JButton refreshBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
+        addBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        editBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        deleteBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        detailsBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        refreshBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
         
         buttonPanel.add(addBtn);
         buttonPanel.add(editBtn);
@@ -1140,6 +1162,10 @@ public class AcademiaGUI extends JFrame {
         JButton removeItemBtn = createStyledButton("🗑️ Remover", new Color(211, 47, 47));
         JButton refreshItemBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
         JButton closeBtn = createStyledButton("✖️ Fechar", new Color(158, 158, 158));
+        addItemBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        removeItemBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        refreshItemBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        closeBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
         
         buttonPanel.add(addItemBtn);
         buttonPanel.add(removeItemBtn);
@@ -1322,6 +1348,9 @@ public class AcademiaGUI extends JFrame {
         JButton addBtn = createStyledButton("➕ Adicionar", new Color(46, 125, 50));
         JButton deleteBtn = createStyledButton("🗑️ Excluir", new Color(211, 47, 47));
         JButton refreshBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
+        addBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        deleteBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        refreshBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
         
         buttonPanel.add(addBtn);
         buttonPanel.add(deleteBtn);
@@ -1520,6 +1549,9 @@ public class AcademiaGUI extends JFrame {
         JButton refreshBtn = createStyledButton("🔄 Atualizar", new Color(25, 118, 210));
         JButton clearBtn = createStyledButton("🗑️ Limpar Logs Antigos", new Color(211, 47, 47));
         JButton statsBtn = createStyledButton("📊 Estatísticas", new Color(255, 152, 0));
+        refreshBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        clearBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        statsBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
         
         filterPanel.add(tabelaLabel);
         filterPanel.add(tabelaCombo);
