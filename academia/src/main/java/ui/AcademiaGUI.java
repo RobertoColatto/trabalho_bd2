@@ -114,7 +114,7 @@ public class AcademiaGUI extends JFrame {
         JTable table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setBackground(new Color(70, 130, 180));
-        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setForeground(Color.BLACK);
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         table.setRowHeight(25);
         
@@ -459,7 +459,7 @@ public class AcademiaGUI extends JFrame {
         JTable table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setBackground(new Color(70, 130, 180));
-        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setForeground(Color.BLACK);
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         table.setRowHeight(25);
         
@@ -642,7 +642,7 @@ public class AcademiaGUI extends JFrame {
         JTable table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setBackground(new Color(70, 130, 180));
-        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setForeground(Color.BLACK);
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         table.setRowHeight(25);
         
@@ -759,7 +759,7 @@ public class AcademiaGUI extends JFrame {
         JTable table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setBackground(new Color(70, 130, 180));
-        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setForeground(Color.BLACK);
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         table.setRowHeight(25);
         
@@ -899,7 +899,7 @@ public class AcademiaGUI extends JFrame {
         JTable table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setBackground(new Color(70, 130, 180));
-        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setForeground(Color.BLACK);
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         table.setRowHeight(25);
         
@@ -1129,7 +1129,7 @@ public class AcademiaGUI extends JFrame {
         JTable itemTable = new JTable(itemModel);
         itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         itemTable.getTableHeader().setBackground(new Color(70, 130, 180));
-        itemTable.getTableHeader().setForeground(Color.WHITE);
+        itemTable.getTableHeader().setForeground(Color.BLACK);
         itemTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         itemTable.setRowHeight(25);
         
@@ -1312,7 +1312,7 @@ public class AcademiaGUI extends JFrame {
         JTable table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setBackground(new Color(70, 130, 180));
-        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setForeground(Color.BLACK);
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         table.setRowHeight(25);
         
@@ -1540,7 +1540,7 @@ public class AcademiaGUI extends JFrame {
         JTable table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setBackground(new Color(70, 130, 180));
-        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setForeground(Color.BLACK);
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         table.setRowHeight(25);
         
