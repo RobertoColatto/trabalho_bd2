@@ -808,107 +808,6 @@ GROUP BY e.id, e.nome, e.tipo
 ORDER BY vezes_usado DESC;
 
 -- =============================================
--- CONSULTAS COMPLEXAS COM FILTROS
--- =============================================
-
--- Consulta 1: Alunos por faixa etária e sexo
-DELIMITER //
-CREATE PROCEDURE sp_alunos_por_faixa_etaria(
-    IN p_idade_min INT,
-    IN p_idade_max INT,
-    IN p_sexo CHAR(1)
-)
-BEGIN
-    SELECT 
-        id,
-        nome,
-        data_nascimento,
-        fn_calcular_idade(data_nascimento) as idade,
-        sexo,
-        telefone,
-        email
-    FROM aluno
-    WHERE sexo = p_sexo
-        AND fn_calcular_idade(data_nascimento) BETWEEN p_idade_min AND p_idade_max
-    ORDER BY nome;
-END//
-DELIMITER ;
-
--- Consulta 2: Evolução do IMC de um aluno
-DELIMITER //
-CREATE PROCEDURE sp_evolucao_imc_aluno(
-    IN p_id_aluno INT
-)
-BEGIN
-    SELECT 
-        av.data_avaliacao,
-        av.peso,
-        av.altura,
-        av.imc,
-        fn_classificar_imc(av.imc) as classificacao,
-        av.percentual_gordura,
-        p.nome as professor_avaliador
-    FROM avaliacao_fisica av
-    INNER JOIN professor p ON av.id_professor = p.id
-    WHERE av.id_aluno = p_id_aluno
-    ORDER BY av.data_avaliacao;
-END//
-DELIMITER ;
-
--- Consulta 3: Treinos por foco e professor
-DELIMITER //
-CREATE PROCEDURE sp_treinos_por_foco(
-    IN p_foco VARCHAR(100),
-    IN p_id_professor INT
-)
-BEGIN
-    SELECT 
-        t.id,
-        t.nome as treino,
-        a.nome as aluno,
-        t.foco_treino,
-        COUNT(it.id) as total_exercicios
-    FROM treino t
-    INNER JOIN aluno a ON t.id_aluno = a.id
-    LEFT JOIN item_treino it ON t.id = it.id_treino
-    WHERE t.foco_treino LIKE CONCAT('%', p_foco, '%')
-        AND (p_id_professor IS NULL OR t.id_professor = p_id_professor)
-    GROUP BY t.id, t.nome, a.nome, t.foco_treino
-    ORDER BY t.nome;
-END//
-DELIMITER ;
-
--- Consulta 4: Busca avançada de alunos
-DELIMITER //
-CREATE PROCEDURE sp_buscar_alunos(
-    IN p_nome VARCHAR(100),
-    IN p_sexo CHAR(1),
-    IN p_data_cadastro_inicio DATE,
-    IN p_data_cadastro_fim DATE
-)
-BEGIN
-    SELECT 
-        a.id,
-        a.nome,
-        a.data_nascimento,
-        fn_calcular_idade(a.data_nascimento) as idade,
-        a.sexo,
-        a.telefone,
-        a.email,
-        a.data_cadastro,
-        COUNT(DISTINCT t.id) as total_treinos
-    FROM aluno a
-    LEFT JOIN treino t ON a.id = t.id_aluno
-    WHERE (p_nome IS NULL OR a.nome LIKE CONCAT('%', p_nome, '%'))
-        AND (p_sexo IS NULL OR a.sexo = p_sexo)
-        AND (p_data_cadastro_inicio IS NULL OR a.data_cadastro >= p_data_cadastro_inicio)
-        AND (p_data_cadastro_fim IS NULL OR a.data_cadastro <= p_data_cadastro_fim)
-    GROUP BY a.id, a.nome, a.data_nascimento, a.sexo, a.telefone, a.email, a.data_cadastro
-    ORDER BY a.nome;
-END//
-DELIMITER ;
-
--- =============================================
 -- ÍNDICES PARA OTIMIZAÇÃO
 -- =============================================
 
@@ -1207,7 +1106,7 @@ INSERT INTO equipamento (nome, tipo) VALUES
 ('Supino Reto', 'Máquina'),
 ('Halter 10kg', 'Peso Livre'),
 ('Halter 20kg', 'Peso Livre'),
-('Corda Naval', 'Acessório'),
+('Kettlebell 10kg', 'Peso Livre'),
 ('Barra W', 'Peso Livre'),
 ('Esteira', 'Máquina');
 
@@ -1239,23 +1138,23 @@ INSERT INTO item_treino (id_treino, id_exercicio, id_equipamento, series, repeti
 
 -- Treino 2
 (2, 7, 1, 4, 12, 100.0),
-(2, 2, 6, 4, 10, NULL),
-(2, 6, 6, 3, 15, NULL),
+(2, 2, 6, 4, 10, 0.0),
+(2, 6, 6, 3, 15, 0.0),
 
 -- Treino 3
 (3, 1, 2, 3, 12, 30.0),
-(3, 3, 6, 3, 12, NULL),
+(3, 3, 6, 3, 12, 0.0),
 (3, 8, 3, 4, 10, 12.0),
 
 -- Treino 4
 (4, 1, 2, 4, 10, 50.0),
 (4, 4, 6, 4, 12, 20.0),
-(4, 3, 6, 3, 12, NULL),
+(4, 3, 6, 3, 12, 0.0),
 
 -- Treino 5
-(5, 2, 6, 4, 10, NULL),
+(5, 2, 6, 4, 10, 0.0),
 (5, 7, 1, 4, 12, 120.0),
-(5, 6, 6, 3, 15, NULL);
+(5, 6, 6, 3, 15, 0.0);
 
 -- INSERTS: AVALIAÇÃO FÍSICA
 INSERT INTO avaliacao_fisica (id_aluno, id_professor, data_avaliacao, altura, peso, percentual_gordura)
